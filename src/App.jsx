@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import CountryList from "./components/CountryList";
 import CountryInfoCard from "./components/CountryInfoCard";
@@ -18,7 +18,17 @@ function App() {
       .then((response) => setData(response.data));
   }, []);
 
-  const [matches, setMatches] = useState(null);
+  const [filter, setFilter] = useState(null);
+
+  const filterMatches = useMemo(() => {
+    const results =
+      data && filter
+        ? data.filter((country) =>
+            country.name.common.toUpperCase().includes(filter.toUpperCase()),
+          )
+        : [];
+    return results.length > 0 ? results : null;
+  }, [data, filter]);
 
   return (
     <div className="m-4 flex flex-col gap-4">
@@ -27,21 +37,18 @@ function App() {
         className="w-fit rounded-sm bg-neutral-100 px-4 py-2"
         name="search"
         type="text"
+        value={filter ? filter : ""}
         placeholder="Search"
-        onChange={(event) => {
-          const query = event.target.value;
-          const filteredData = data.filter((country) =>
-            country.name.common.toUpperCase().includes(query.toUpperCase()),
-          );
-          setMatches(query && filteredData.length > 0 ? filteredData : null);
-        }}
+        onChange={(event) =>
+          setFilter(event.target.value ? event.target.value : null)
+        }
       />
-      {matches ? (
-        matches.length <= 10 ? (
-          matches.length > 1 ? (
-            <CountryList countries={matches} />
+      {filterMatches ? (
+        filterMatches.length <= 10 ? (
+          filterMatches.length > 1 ? (
+            <CountryList countries={filterMatches} countrySetter={setFilter} />
           ) : (
-            <CountryInfoCard country={matches[0]} />
+            <CountryInfoCard country={filterMatches[0]} />
           )
         ) : (
           <div className="opacity-50">
