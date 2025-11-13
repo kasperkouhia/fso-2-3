@@ -32,15 +32,19 @@ function CountryInfoCard({ country }) {
           ))}
         </ul>
       </div>
-      <h3 className="col-span-2 text-xl font-bold">
-        Weather in {country.capital[0]}
-      </h3>
-      <div className="col-span-2 flex gap-4">
-        <WeatherInfo
-          lat={country.capitalInfo.latlng[0]}
-          lon={country.capitalInfo.latlng[1]}
-        />
-      </div>
+      {country.capital && country.capitalInfo && country.capitalInfo.latlng ? (
+        <>
+          <h3 className="col-span-2 text-xl font-bold">
+            Weather in {country.capital[0]}
+          </h3>
+          <div className="col-span-2 flex gap-4">
+            <WeatherInfo
+              lat={country.capitalInfo.latlng[0]}
+              lon={country.capitalInfo.latlng[1]}
+            />
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }
