@@ -1,6 +1,8 @@
+import WeatherInfo from "./WeatherInfo";
+
 function CountryInfoCard({ country }) {
   return (
-    <div className="grid w-fit grid-cols-[fit-content] gap-4 rounded-sm bg-neutral-100 p-4">
+    <div className="grid w-fit grid-cols-[fit-content] gap-x-4 gap-y-2 rounded-sm bg-neutral-100 p-4">
       <h2 className="col-span-2 text-3xl font-bold">{country.name.common}</h2>
       <div>
         <figure>
@@ -13,7 +15,7 @@ function CountryInfoCard({ country }) {
       </div>
       <div>
         <p>
-          <strong>Capital:</strong> {country.capital}
+          <strong>Capital:</strong> {country.capital.join(", ")}
         </p>
         <p>
           <strong>Area:</strong> {country.area} km<sup>2</sup>
@@ -29,6 +31,15 @@ function CountryInfoCard({ country }) {
             <li key={key}>{country.languages[key]}</li>
           ))}
         </ul>
+      </div>
+      <h3 className="col-span-2 text-xl font-bold">
+        Weather in {country.capital[0]}
+      </h3>
+      <div className="col-span-2 flex gap-4">
+        <WeatherInfo
+          lat={country.capitalInfo.latlng[0]}
+          lon={country.capitalInfo.latlng[1]}
+        />
       </div>
     </div>
   );
