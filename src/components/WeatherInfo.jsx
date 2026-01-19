@@ -39,7 +39,7 @@ function WeatherInfo({ lat, lon, units = "metric" }) {
       </div>
     </>
   ) : (
-    <p className="opacity-50">Couldn't fetch weather data.</p>
+    <p className="opacity-50">Loading weather data...</p>
   );
 }
 
