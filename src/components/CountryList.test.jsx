@@ -4,13 +4,13 @@ import userEvent from "@testing-library/user-event";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import CountryList from "./CountryList";
 
+const mockSetter = vi.fn();
+
 const countries = [
   { name: { common: "Finland" } },
   { name: { common: "Sweden" } },
   { name: { common: "Norway" } },
 ];
-
-const mockSetter = vi.fn();
 
 describe("CountryList", () => {
   beforeEach(() =>
